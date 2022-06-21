@@ -131,6 +131,29 @@ func convertInterfaceToStringSetNullable(purportedSet interface{}) []string {
 	return nil
 }
 
+func convertInterfaceToUniqueStringSetNullable(purportedList interface{}) []string {
+	var arr []string
+	fmt.Println("inside terraform convertInterfaceToUniqueStringSetNullable")
+	fmt.Println(purportedList)
+	rawArr, ok := purportedList.([]interface{})
+	if ok {
+		list := convertInterfaceArrToStringArr(rawArr)
+		allKeys := make(map[string]bool)
+		result := []string{}
+		for i := 0; i < len(list); i++ {
+			item := list[i]
+			fmt.Println(item)
+			if _, value := allKeys[item]; !value {
+				allKeys[item] = true
+				result = append(result, item)
+			}
+		}
+		fmt.Println(result)
+		return result
+	}
+	return arr
+}
+
 func convertInterfaceToStringArr(purportedList interface{}) []string {
 	var arr []string
 	rawArr, ok := purportedList.([]interface{})
